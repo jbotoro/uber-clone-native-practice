@@ -8,6 +8,7 @@ import { store } from './store';
 import { createStackNavigator } from '@react-navigation/stack';
 
 
+
 export default function App() {
 
   const Stack = createStackNavigator();
