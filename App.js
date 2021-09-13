@@ -7,6 +7,7 @@ import  MapScreen  from './screens/MapScreen';
 import { store } from './store';
 import { createStackNavigator } from '@react-navigation/stack';
 import { KeyboardAvoidingView, Platform } from 'react-native';
+import tw from 'tailwind-react-native-classnames';
 
 
 
@@ -20,7 +21,7 @@ export default function App() {
         <SafeAreaProvider>
           <KeyboardAvoidingView
             style={{flex: 1}}
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            behavior= {Platform.OS === 'ios' ? "padding" : 'height'}
             keyboardVerticalOffset={Platform.OS === 'ios' ? -64 : 0}
           >
             <Stack.Navigator>
