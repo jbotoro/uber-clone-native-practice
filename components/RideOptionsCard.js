@@ -13,6 +13,9 @@ import { Icon } from 'react-native-elements';
 import { useSelector } from 'react-redux';
 import tw from 'tailwind-react-native-classnames';
 import { selectTravelTimeInformation } from '../slices/navSlice';
+import "intl";
+
+import "intl/locale-data/jsonp/en";
 
 
 const data = [
@@ -36,6 +39,8 @@ const data = [
     },
 ]
 
+const SURGE_CHARGE_RATE = 1.5;
+
 const RideOptionsCard = () => {
     const navigation = useNavigation();
     const [selected, setSelected] = useState(null);
@@ -50,7 +55,7 @@ const RideOptionsCard = () => {
                 >
                     <Icon name="chevron-left" type='fontawesome'/>
                 </TouchableOpacity>
-                <Text style={tw`text-center py-5 text-xl`}>Select a Ride - {travelTimeInformation?.distance.text}</Text>
+                <Text style={tw`text-center py-5 text-xl`}>Select a Ride - {travelTimeInformation?.distance?.text}</Text>
             </View>
 
             <FlatList
@@ -58,33 +63,37 @@ const RideOptionsCard = () => {
                 keyExtractor={(item) => item.id}
                 renderItem={ ({item: {id, title, multiplier, image}, item }) => (
                     <TouchableOpacity 
-                        style={tw`flex-row justify-between 
-                            items-center px-10 ${id === selected?.id && 'bg-gray-200'}`}
+                        style={tw`flex-row justify-between items-center px-10 ${id === selected?.id && 'bg-gray-200'}`}
                         onPress={() => setSelected(item)}
                     >
                         <Image
                             style={{
                                 width: 100,
                                 height: 100,
-                                resizeMode: 'contain',
+                                resizeMode:'contain'
                             }}
                             source={{uri: image}}
                         />
-                        <View style={tw `-ml-6`}>
+                        <View style={tw `-ml-2 `}>
                             <Text style={tw`text-xl font-semibold`}>
                                 {title}
                             </Text>
-                            <Text>
-                                {travelTimeInformation?.duration.text} Travel Time
+                            <Text style={tw`text-xs`}>
+                                {travelTimeInformation?.duration?.text} Travel Time
                             </Text>
                         </View>
-                        <Text style={tw`text-xl`}>
-                                $99
+                        <Text style={tw`text-lg ml-2 font-semibold`}>
+                                {new Intl.NumberFormat('en-us', {
+                                    style: 'currency',
+                                    currency: 'USD',
+                                }).format(
+                                    (travelTimeInformation?.duration?.value * SURGE_CHARGE_RATE * multiplier/100)
+                                )}
                         </Text>
                     </TouchableOpacity>
                 )}
             />
-            <View style={tw`h-1/2`}>
+            <View style={tw` mt-auto border-t border-gray-200`}>
                 <TouchableOpacity 
                     disabled={!selected} 
                     style={tw`bg-black py-3 m-3  ${!selected && 'bg-gray-300'}`}

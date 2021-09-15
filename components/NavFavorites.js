@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import tw from 'tailwind-react-native-classnames';
 import { selectDestination, selectOrigin, setDestination, setOrigin } from '../slices/navSlice';
+import {GOOGLE_MAPS_APIKEY } from "@env"
 
 const data = [
     {
@@ -21,6 +22,8 @@ const data = [
         destination: 'Salesforce Tower, San Francisco, CA, USA'
     }
 ]
+
+
 
 
 const NavFavorites = () => {
